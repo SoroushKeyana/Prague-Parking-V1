@@ -37,6 +37,26 @@ int ReadMenuChoice()
     }
 }
 
+void Park(string[] parkingGarage)
+{
+
+}
+
+void Move(string[] parkingGarage)
+{
+
+}
+
+void Remove(string[] parkingGarage)
+{
+
+}
+
+void Search(string[] parkingGarage)
+{
+
+}
+
 void PrintSlots(string[] parkingGarage)
 {
     SetDefaultSlotLabels(parkingGarage);
@@ -45,6 +65,11 @@ void PrintSlots(string[] parkingGarage)
     {
         Console.WriteLine(slot);
     }
+}
+
+void Exit(string[] parkingGarage)
+{
+
 }
 
 ReadMenuChoice();
