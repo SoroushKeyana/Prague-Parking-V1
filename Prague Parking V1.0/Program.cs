@@ -1,4 +1,5 @@
 ﻿string[] parkingGarage = new string[100];
+string[] menu = { "Park", "Move", "Remove", "Search", "Print Slots", "Exit" };
 
 parkingGarage[10] = "CAR#23Gf";
 
@@ -13,6 +14,29 @@ void SetDefaultSlotLabels(string[] parkingGarage)
     }
 }
 
+void PrintMenu(string[] menu)
+{
+    Console.WriteLine("Please choose an option: ");
+    for (int i = 0; i < menu.Length; i++)
+    {
+        Console.WriteLine($"{i+1}. {menu[i]}");
+    }
+}
+
+int ReadMenuChoice()
+{
+    PrintMenu(menu);
+    Console.Write("Type a number betwee 1-6: ");
+    while (true)
+    {
+        if (int.TryParse(Console.ReadLine(), out int choice))
+        {
+            return choice;
+        }
+        Console.Write("Please enter a valid number: ");
+    }
+}
+
 void PrintSlots(string[] parkingGarage)
 {
     SetDefaultSlotLabels(parkingGarage);
@@ -23,6 +47,6 @@ void PrintSlots(string[] parkingGarage)
     }
 }
 
-PrintSlots(parkingGarage);
+ReadMenuChoice();
 
 Console.ReadKey(true);
