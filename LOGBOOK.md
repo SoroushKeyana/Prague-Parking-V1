@@ -5,3 +5,6 @@
 
 ## 2026-09-27
 - Planing on how to implement the project
+- Created parkingGarage array
+- Created PrintSlots method to print the spaces in parkingGarage
+- Created SetDefaultSlotLabels to set default slot labels to "Empty"
