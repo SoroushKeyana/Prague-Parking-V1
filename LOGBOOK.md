@@ -8,3 +8,5 @@
 - Created parkingGarage array
 - Created PrintSlots method to print the spaces in parkingGarage
 - Created SetDefaultSlotLabels to set default slot labels to "Empty"
+- Created PrintMenu method to print options for user to choose from
+- Created ReadMenuChoice method to get user's chosen option from the menu

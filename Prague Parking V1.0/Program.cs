@@ -3,7 +3,7 @@ string[] menu = { "Park", "Move", "Remove", "Search", "Print Slots", "Exit" };
 
 parkingGarage[10] = "CAR#23Gf";
 
-void SetDefaultSlotLabels(string[] parkingGarage)
+static void SetDefaultSlotLabels(string[] parkingGarage)
 {
     for (int i = 0; i < parkingGarage.Length; i++)
     {
@@ -14,7 +14,7 @@ void SetDefaultSlotLabels(string[] parkingGarage)
     }
 }
 
-void PrintMenu(string[] menu)
+static void PrintMenu(string[] menu)
 {
     Console.WriteLine("Please choose an option: ");
     for (int i = 0; i < menu.Length; i++)
@@ -23,7 +23,7 @@ void PrintMenu(string[] menu)
     }
 }
 
-int ReadMenuChoice()
+static int ReadMenuChoice()
 {
     PrintMenu(menu);
     Console.Write("Type a number betwee 1-6: ");
@@ -37,27 +37,27 @@ int ReadMenuChoice()
     }
 }
 
-void Park(string[] parkingGarage)
+static void Park(string[] parkingGarage)
 {
 
 }
 
-void Move(string[] parkingGarage)
+static void Move(string[] parkingGarage)
 {
 
 }
 
-void Remove(string[] parkingGarage)
+static void Remove(string[] parkingGarage)
 {
 
 }
 
-void Search(string[] parkingGarage)
+static void Search(string[] parkingGarage)
 {
 
 }
 
-void PrintSlots(string[] parkingGarage)
+static void PrintSlots(string[] parkingGarage)
 {
     SetDefaultSlotLabels(parkingGarage);
 
@@ -67,7 +67,7 @@ void PrintSlots(string[] parkingGarage)
     }
 }
 
-void Exit(string[] parkingGarage)
+static void Exit(string[] parkingGarage)
 {
 
 }
