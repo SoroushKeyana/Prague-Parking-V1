@@ -32,4 +32,4 @@
 - Implementing Remove method.
 - Noticed that I can reuse the Search method for removing a vehicle. 
 - Changin Search method to return values so that it will be useful in Remove method. 
-- 
+- Completed the implemetaton of Remove method. 

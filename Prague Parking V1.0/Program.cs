@@ -167,6 +167,10 @@ static (int slotIndex, int vehicleIndex) Search(string[] parkingGarage, string q
     return (-1,-1) ;
 }
 
+static void PrintSlot(string[] parkingGarage, int spotNumber)
+{
+    Console.WriteLine($"{spotNumber,3}. {parkingGarage[spotNumber - 1] ?? "Empty",-25}");
+}
 static void PrintSlots(string[] parkingGarage)
 {
 
@@ -204,7 +208,35 @@ while (true)
                 Search(parkingGarage, query);
                 break;
             }
-        case 5: PrintSlots(parkingGarage); break;
+        case 5:
+            {
+                Console.WriteLine("1. Print all spots");
+                Console.WriteLine("2. Print specific spot");
+                Console.Write("Choose: ");
+
+                int printChoice = int.Parse(Console.ReadLine());
+
+                if (printChoice == 1)
+                {
+                    PrintSlots(parkingGarage);
+                }
+                else if (printChoice == 2)
+                {
+                    Console.Write("Enter spot number (1-100): ");
+                    int spotNumber = int.Parse(Console.ReadLine());
+
+                    if (spotNumber >= 1 && spotNumber <= 100)
+                    {
+                        PrintSlot(parkingGarage, spotNumber);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid spot number.");
+                    }
+                }
+
+                break;
+            }
         case 6: Exit(); break;
     }
     Console.WriteLine("\nPress any key to return to the menu...");
