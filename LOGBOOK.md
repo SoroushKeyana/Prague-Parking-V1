@@ -19,4 +19,6 @@
 - I noticed that i pass parkingGarage argument to Exit() method and we have no use for that so I removed it. 
 - Created a while loop that prints menu and asks user for input.
 - Inside the while loop I created a switch where it calls the related method to execute the user's choice.
+- Added logic to Search method. 
+- Added another parameter 'query' to Search method to get user's search query and compare it to the serial numbers that exist in the parking slots. 
 - 

@@ -1,8 +1,10 @@
 ﻿string[] parkingGarage = new string[100];
 string[] menu = { "Park", "Move", "Remove", "Search", "Print Slots", "Exit" };
 
+parkingGarage[0] = "MC#66Gf|MC#1234";
+parkingGarage[1] = "MC#66G3";
+parkingGarage[3] = "MC#634G3";
 parkingGarage[10] = "CAR#23Gf";
-parkingGarage[0] = "MS#66Gf|MS#1234";
 
 static void PrintMenu(string[] menu)
 {
@@ -31,7 +33,68 @@ static int ReadMenuChoice()
 
 static void Park(string[] parkingGarage)
 {
-    Console.WriteLine("Parking");
+    Console.Write("Insert the vehicles serial number: ");
+    string serialNumber = Console.ReadLine().ToUpper();
+    bool parked = false;
+    while (true) {
+        Console.WriteLine("1. Car \n2. Motorcycle");
+        Console.Write("Select the vehicle type by entring 1 or 2: ");
+        int.TryParse(Console.ReadLine(), out int vehicleType);
+        if (vehicleType == 1)
+        {
+            serialNumber = "CAR#" + serialNumber;
+            for (int i = 0; i < parkingGarage.Length; i++)
+            {
+                if (parkingGarage[i] == null)
+                {
+                    parkingGarage[i] = serialNumber;
+                    Console.WriteLine($"Parked {serialNumber} in spot {i + 1}");
+                    parked = true;
+                    break;
+                }
+            }
+            if (!parked)
+            {
+                Console.WriteLine("No free parking slots available.");
+            }
+            break;
+        }
+        else if (vehicleType == 2)
+        {
+            serialNumber = "MC#" + serialNumber;
+            for (int i = 0; i < parkingGarage.Length; i++)
+            {
+                if (!string.IsNullOrEmpty(parkingGarage[i]) && parkingGarage[i].Contains("MC#"))
+                {
+                    if (parkingGarage[i].Contains("|"))
+                    {
+                        continue;
+                    }
+                
+                    parkingGarage[i] += "|" + serialNumber;
+                    Console.WriteLine($"Parked {serialNumber} in slot {i + 1}");
+                    parked = true;
+                    break;
+                }
+                else if (parkingGarage[i] == null)
+                {
+                    parkingGarage[i] = serialNumber;
+                    Console.WriteLine($"Parked {serialNumber} in slot {i + 1}");
+                    parked = true;
+                    break;
+                }
+            }
+            if (!parked)
+            {
+                Console.WriteLine("No free parking slots available.");
+            }
+            break;
+        }
+        else
+        {
+            Console.WriteLine("Wrong input try again!");
+        }
+    }
 }
 
 static void Move(string[] parkingGarage)
@@ -47,6 +110,7 @@ static void Remove(string[] parkingGarage)
 static void Search(string[] parkingGarage, string query)
 {
     bool found = false;
+    query = query.Trim().ToLower();
     Console.WriteLine("Searching...");
 
     for (int i = 0; i < parkingGarage.Length; i++)
@@ -60,7 +124,7 @@ static void Search(string[] parkingGarage, string query)
         {
             string[] vehicleData = vehicles[j].Split('#');
 
-            if (vehicleData[1] == query)
+            if (vehicleData[1].Equals(query, StringComparison.OrdinalIgnoreCase))
             {
                 Console.WriteLine($"The vehicle is in parking slot {i+1}");
                 found = true; 
@@ -76,9 +140,9 @@ static void Search(string[] parkingGarage, string query)
 static void PrintSlots(string[] parkingGarage)
 {
 
-    foreach (string slot in parkingGarage)
+    for (int i = 0; i < parkingGarage.Length; i++)
     {
-        Console.WriteLine(slot ?? "Empty");
+        Console.WriteLine($"{i + 1}. {parkingGarage[i] ?? "Empty"}");
     }
 }
 
@@ -98,7 +162,7 @@ while (true)
         case 3: Remove(parkingGarage); break;
         case 4: 
             {
-                Console.Write("Enter registration number or serial number: ");
+                Console.Write("Enter serial number: ");
                 string query = Console.ReadLine();
                 Search(parkingGarage, query);
                 break;
