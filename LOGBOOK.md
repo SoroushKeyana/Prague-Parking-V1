@@ -27,4 +27,5 @@
 - Get serial number, check for available slots and store the serial number.
 - Adding logic so that the program adds the type of the vehicle to the serial number using TYPE#SERNR.
 - Added extra checks if the slot contains a motorcycle and if yes see if there is available spot for second motorcycle.
-- 
+- Made changes to PrintSlots method to make it more readable. 
+- Made menu visually more appealing. 

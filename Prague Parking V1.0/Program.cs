@@ -106,14 +106,26 @@ static void Move(string[] parkingGarage)
 
 static void Remove(string[] parkingGarage)
 {
-    Console.WriteLine("Removing");
+    Console.Write("Enter serial number: ");
+    string query = Console.ReadLine();
+    var result = Search(parkingGarage, query);
+
+    if (result.slotIndex == -1)
+    {
+        return;
+    }
+
+    Console.Write("Type 'r' to remove the vehicle: ");
+
+    if (Console.ReadLine() == "r")
+    {
+
+    }
 }
 
-static void Search(string[] parkingGarage, string query)
+static (int slotIndex, int vehicleIndex) Search(string[] parkingGarage, string query)
 {
-    bool found = false;
-    query = query.Trim().ToLower();
-    Console.WriteLine("Searching...");
+    query = query.Trim();
 
     for (int i = 0; i < parkingGarage.Length; i++)
     {
@@ -129,16 +141,15 @@ static void Search(string[] parkingGarage, string query)
             if (vehicleData[1].Equals(query, StringComparison.OrdinalIgnoreCase))
             {
                 Console.WriteLine($"The vehicle is in parking slot {i+1}");
-                found = true; 
-                break;
+                return (i,j);
             }
         }
     }
-    if (!found)
-    {
-        Console.WriteLine("Serial number doesn't exist!");
-    }
+    
+    Console.WriteLine("Serial number doesn't exist!");
+    return (-1,-1) ;
 }
+
 static void PrintSlots(string[] parkingGarage)
 {
 
