@@ -8,7 +8,9 @@ parkingGarage[10] = "CAR#23Gf";
 
 static void PrintMenu(string[] menu)
 {
-    Console.WriteLine("Please choose an option: ");
+    Console.WriteLine("==============================");
+    Console.WriteLine("       PRAGUE PARKING");
+    Console.WriteLine("==============================");
     for (int i = 0; i < menu.Length; i++)
     {
         Console.WriteLine($"{i+1}. {menu[i]}");
@@ -142,7 +144,12 @@ static void PrintSlots(string[] parkingGarage)
 
     for (int i = 0; i < parkingGarage.Length; i++)
     {
-        Console.WriteLine($"{i + 1}. {parkingGarage[i] ?? "Empty"}");
+        Console.Write($"{i + 1,3}. {parkingGarage[i] ?? "Empty",-25}");
+
+        if ((i + 1) % 4 == 0)
+        {
+            Console.WriteLine();
+        }
     }
 }
 
@@ -154,6 +161,8 @@ static void Exit()
 
 while (true)
 {
+    Console.Clear();
+
     PrintMenu(menu);
     int choice = ReadMenuChoice();
     switch (choice) {
@@ -170,5 +179,7 @@ while (true)
         case 5: PrintSlots(parkingGarage); break;
         case 6: Exit(); break;
     }
+    Console.WriteLine("\nPress any key to return to the menu...");
+    Console.ReadKey();
 }
 

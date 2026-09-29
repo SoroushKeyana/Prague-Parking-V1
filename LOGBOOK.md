@@ -21,4 +21,10 @@
 - Inside the while loop I created a switch where it calls the related method to execute the user's choice.
 - Added logic to Search method. 
 - Added another parameter 'query' to Search method to get user's search query and compare it to the serial numbers that exist in the parking slots. 
+
+## 2026-09-29
+- Started Implementing the Park method. 
+- Get serial number, check for available slots and store the serial number.
+- Adding logic so that the program adds the type of the vehicle to the serial number using TYPE#SERNR.
+- Added extra checks if the slot contains a motorcycle and if yes see if there is available spot for second motorcycle.
 - 
