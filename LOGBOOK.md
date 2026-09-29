@@ -29,3 +29,7 @@
 - Added extra checks if the slot contains a motorcycle and if yes see if there is available spot for second motorcycle.
 - Made changes to PrintSlots method to make it more readable. 
 - Made menu visually more appealing. 
+- Implementing Remove method.
+- Noticed that I can reuse the Search method for removing a vehicle. 
+- Changin Search method to return values so that it will be useful in Remove method. 
+- 

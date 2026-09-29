@@ -1,7 +1,7 @@
 ﻿string[] parkingGarage = new string[100];
 string[] menu = { "Park", "Move", "Remove", "Search", "Print Slots", "Exit" };
 
-parkingGarage[0] = "MC#66Gf|MC#1234";
+parkingGarage[0] = "MC#321|MC#1234";
 parkingGarage[1] = "MC#66G3";
 parkingGarage[3] = "MC#634G3";
 parkingGarage[10] = "CAR#23Gf";
@@ -108,6 +108,7 @@ static void Remove(string[] parkingGarage)
 {
     Console.Write("Enter serial number: ");
     string query = Console.ReadLine();
+
     var result = Search(parkingGarage, query);
 
     if (result.slotIndex == -1)
@@ -119,7 +120,23 @@ static void Remove(string[] parkingGarage)
 
     if (Console.ReadLine() == "r")
     {
+        string[] vehicles = parkingGarage[result.slotIndex].Split('|');
 
+        if (vehicles.Length == 1)
+        {
+            parkingGarage[result.slotIndex] = null;
+            Console.WriteLine($"Vehicle with REGNR '{query}' has been removed.");
+        }
+        else if (vehicles[0].Contains(query, StringComparison.OrdinalIgnoreCase))
+        {
+            parkingGarage[result.slotIndex] = vehicles[1];
+            Console.WriteLine($"Vehicle with REGNR '{query}' has been removed.");
+        }
+        else if (vehicles[1].Contains(query, StringComparison.OrdinalIgnoreCase))
+        {
+            parkingGarage[result.slotIndex] = vehicles[0];
+            Console.WriteLine($"Vehicle with REGNR '{query}' has been removed.");
+        }
     }
 }
 
