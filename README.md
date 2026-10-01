@@ -98,4 +98,28 @@ If two motorcycles are sharing a spot, only the selected motorcycle is removed a
 
 ## Move
 
-The user can move a vehicle by entering its registration number and the destination parkin
+The user can move a vehicle by entering its registration number and the destination parking spot.
+
+The system first uses the `Search` method to find the vehicle.
+
+The destination spot is checked to make sure it is empty.
+
+If the vehicle is the only vehicle in the spot, its value is moved to the new spot and the old spot is set to `null`.
+
+If two motorcycles are sharing a spot, only the selected motorcycle is moved and the other motorcycle stays in the original spot.
+
+## Print Slots
+
+The user can choose to print either the whole parking garage or one specific parking spot.
+
+When printing the whole garage, all 100 spots are displayed.
+
+Empty spots are shown as `"Empty"` instead of displaying `null`.
+
+The user can also enter a specific spot number between 1 and 100 to see its contents.
+
+## Exit
+
+The Exit option closes the program.
+
+The system displays a message before exiting.
