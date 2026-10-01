@@ -47,3 +47,5 @@
 * Made it work. It was easier than I initially thought.
 * I noticed that the `Contains` method I used in `Move` and `Remove` could cause issues.
 * Changed the `Move` and `Remove` methods to use `result.vehicleIndex` instead of `Contains`. This is a better approach because it reduces code repetition and works better.
+* Worked on the README.md file. 
+* 
