@@ -162,27 +162,23 @@ static void Remove(string[] parkingGarage)
     }
 
     Console.Write("Type 'r' to remove the vehicle: ");
-
-    if (Console.ReadLine() == "r")
+    if (Console.ReadLine() != "r")
     {
-        string[] vehicles = parkingGarage[result.slotIndex].Split('|');
-
-        if (vehicles.Length == 1)
-        {
-            parkingGarage[result.slotIndex] = null;
-            Console.WriteLine($"Vehicle with REGNR '{query}' has been removed.");
-        }
-        else if (vehicles[0].Contains(query, StringComparison.OrdinalIgnoreCase))
-        {
-            parkingGarage[result.slotIndex] = vehicles[1];
-            Console.WriteLine($"Vehicle with REGNR '{query}' has been removed.");
-        }
-        else if (vehicles[1].Contains(query, StringComparison.OrdinalIgnoreCase))
-        {
-            parkingGarage[result.slotIndex] = vehicles[0];
-            Console.WriteLine($"Vehicle with REGNR '{query}' has been removed.");
-        }
+        return;
     }
+
+    string[] vehicles = parkingGarage[result.slotIndex].Split('|');
+
+    if (vehicles.Length == 1)
+    {
+        parkingGarage[result.slotIndex] = null;
+    }
+    else
+    {
+        parkingGarage[result.slotIndex] = vehicles[1 - result.vehicleIndex];
+    }
+
+    Console.WriteLine($"Vehicle with REGNR '{query}' has been removed.");
 }
 
 static (int slotIndex, int vehicleIndex) Search(string[] parkingGarage, string query)
