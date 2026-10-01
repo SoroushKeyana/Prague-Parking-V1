@@ -101,7 +101,49 @@ static void Park(string[] parkingGarage)
 
 static void Move(string[] parkingGarage)
 {
-    Console.WriteLine("Moving");
+    Console.Write("Enter serial number of the vehicle you would like to move: ");
+    string serialNumber = Console.ReadLine();
+
+    var result = Search(parkingGarage, serialNumber);
+
+    if (result.slotIndex == -1)
+    {
+        return;
+    }
+
+    Console.Write("Enter destinatino slot 1-100: ");
+    int.TryParse(Console.ReadLine(), out int destincationSlot);
+    Console.Write("Type 'm' to move the vehicle: ");
+
+    if (Console.ReadLine() == "m")
+    {
+        if (string.IsNullOrEmpty(parkingGarage[destincationSlot-1]))
+        {
+            if (parkingGarage[result.slotIndex].Contains('|'))
+            {
+                string[] vehicles = parkingGarage[result.slotIndex].Split('|');
+
+                if (vehicles[0].Contains(serialNumber))
+                {
+                    parkingGarage[destincationSlot - 1] = vehicles[0];
+                    parkingGarage[result.slotIndex] = vehicles[1];
+                }
+                else
+                {
+                    parkingGarage[destincationSlot - 1] = vehicles[1];
+                    parkingGarage[result.slotIndex] = vehicles[0];
+                }
+          
+            }
+            else
+            {
+                parkingGarage[destincationSlot - 1] = parkingGarage[result.slotIndex];
+                parkingGarage[result.slotIndex] = null;
+                Console.WriteLine($"Moved to slot {destincationSlot}");
+            }
+        }
+    }
+
 }
 
 static void Remove(string[] parkingGarage)

@@ -33,3 +33,10 @@
 - Noticed that I can reuse the Search method for removing a vehicle. 
 - Changin Search method to return values so that it will be useful in Remove method. 
 - Completed the implemetaton of Remove method. 
+- Added PrintSpot method for having the option of printing a single spot. 
+- Changed case 5 to have the user choose between printing whole garage or single spot. 
+
+## 2026-10-01
+- Started working on Move method.
+- Reused the Search method for it.
+- Made it work. It was easier than I initially tought.

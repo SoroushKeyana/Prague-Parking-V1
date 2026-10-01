@@ -8,4 +8,4 @@ The parking lot accepts cars and motorcycles.
 Currently, all vehicles are collected before 00:00, when the parking lot closes. Vehicles that are not collected are moved to a parking lot outside the city, and customers must pay a penalty fee to retrieve their vehicle. This is not handled by the current system.
 
 ## Vehicle Registration Number
-All vehicles will have TYPE#REGNR format for registration number. For example a car with registration number A343 will become CAR#A343 and a Motorcycle with registration number BF483 will become MC#BF483.
+All vehicles will have TYPE#REGNR format for registration number. For example a car with registration number A343 will become CAR#A343 and a Motorcycle with registration number BF483 will become MC#BF483.\
