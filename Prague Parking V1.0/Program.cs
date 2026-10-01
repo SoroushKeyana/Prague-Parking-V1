@@ -111,39 +111,42 @@ static void Move(string[] parkingGarage)
         return;
     }
 
-    Console.Write("Enter destinatino slot 1-100: ");
-    int.TryParse(Console.ReadLine(), out int destincationSlot);
-    Console.Write("Type 'm' to move the vehicle: ");
-
-    if (Console.ReadLine() == "m")
+    Console.Write("Enter destination slot 1-100: ");
+    if (!int.TryParse(Console.ReadLine(), out int destinationSlot) ||
+        destinationSlot < 1 || destinationSlot > 100)
     {
-        if (string.IsNullOrEmpty(parkingGarage[destincationSlot-1]))
-        {
-            if (parkingGarage[result.slotIndex].Contains('|'))
-            {
-                string[] vehicles = parkingGarage[result.slotIndex].Split('|');
-
-                if (vehicles[0].Contains(serialNumber))
-                {
-                    parkingGarage[destincationSlot - 1] = vehicles[0];
-                    parkingGarage[result.slotIndex] = vehicles[1];
-                }
-                else
-                {
-                    parkingGarage[destincationSlot - 1] = vehicles[1];
-                    parkingGarage[result.slotIndex] = vehicles[0];
-                }
-          
-            }
-            else
-            {
-                parkingGarage[destincationSlot - 1] = parkingGarage[result.slotIndex];
-                parkingGarage[result.slotIndex] = null;
-                Console.WriteLine($"Moved to slot {destincationSlot}");
-            }
-        }
+        Console.WriteLine("Invalid slot number.");
+        return;
     }
 
+    Console.Write("Type 'm' to move the vehicle: ");
+    if (Console.ReadLine() != "m")
+    {
+        return;
+    }
+
+    if (!string.IsNullOrEmpty(parkingGarage[destinationSlot - 1]))
+    {
+        Console.WriteLine("That spot is occupied.");
+        return;
+    }
+
+    if (parkingGarage[result.slotIndex].Contains('|'))
+    {
+        string[] vehicles = parkingGarage[result.slotIndex].Split('|');
+        string movingVehicle = vehicles[result.vehicleIndex];
+        string remainingVehicle = vehicles[1 - result.vehicleIndex];
+
+        parkingGarage[destinationSlot - 1] = movingVehicle;
+        parkingGarage[result.slotIndex] = remainingVehicle;
+    }
+    else
+    {
+        parkingGarage[destinationSlot - 1] = parkingGarage[result.slotIndex];
+        parkingGarage[result.slotIndex] = null;
+    }
+
+    Console.WriteLine($"Moved to slot {destinationSlot}");
 }
 
 static void Remove(string[] parkingGarage)

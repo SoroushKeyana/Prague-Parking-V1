@@ -40,3 +40,5 @@
 - Started working on Move method.
 - Reused the Search method for it.
 - Made it work. It was easier than I initially tought.
+- I noticed that the Contains method I used in Move and Remove can cause issues. 
+- I changed the Move and Remove methods, used result.vehicleIndex instead of Contains. It is better appraoch as it reduces code repetation and also works better. 
