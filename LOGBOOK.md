@@ -48,4 +48,11 @@
 * I noticed that the `Contains` method I used in `Move` and `Remove` could cause issues.
 * Changed the `Move` and `Remove` methods to use `result.vehicleIndex` instead of `Contains`. This is a better approach because it reduces code repetition and works better.
 * Worked on the README.md file. 
-* 
+* Started working on Prague Parking 1.1.
+
+## 2026-10-02
+
+* Copied the files from Prague Parking V1.0 to Prague Parking V1.1.
+* Started planning on which features to add and how to do it.
+* Decided to go with working on visualization and adding Timestamp and duration parked as they do not require a data format redesign.
+* Started with visualization. Apllied colors to garage print. Green for empty, red for full, and yellow for half full. 
