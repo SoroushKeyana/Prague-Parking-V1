@@ -13,7 +13,7 @@ static void PrintMenu(string[] menu)
     Console.WriteLine("==============================");
     for (int i = 0; i < menu.Length; i++)
     {
-        Console.WriteLine($"{i+1}. {menu[i]}");
+        Console.WriteLine($"{i + 1}. {menu[i]}");
     }
 }
 
@@ -38,7 +38,8 @@ static void Park(string[] parkingGarage)
     Console.Write("Insert the vehicles serial number: ");
     string serialNumber = Console.ReadLine().ToUpper();
     bool parked = false;
-    while (true) {
+    while (true)
+    {
         Console.WriteLine("1. Car \n2. Motorcycle");
         Console.Write("Select the vehicle type by entring 1 or 2: ");
         int.TryParse(Console.ReadLine(), out int vehicleType);
@@ -72,7 +73,7 @@ static void Park(string[] parkingGarage)
                     {
                         continue;
                     }
-                
+
                     parkingGarage[i] += "|" + serialNumber;
                     Console.WriteLine($"Parked {serialNumber} in slot {i + 1}");
                     parked = true;
@@ -198,14 +199,14 @@ static (int slotIndex, int vehicleIndex) Search(string[] parkingGarage, string q
 
             if (vehicleData[1].Equals(query, StringComparison.OrdinalIgnoreCase))
             {
-                Console.WriteLine($"The vehicle is in parking slot {i+1}");
-                return (i,j);
+                Console.WriteLine($"The vehicle is in parking slot {i + 1}");
+                return (i, j);
             }
         }
     }
-    
+
     Console.WriteLine("Serial number doesn't exist!");
-    return (-1,-1) ;
+    return (-1, -1);
 }
 
 static void PrintSlot(string[] parkingGarage, int spotNumber)
@@ -238,11 +239,12 @@ while (true)
 
     PrintMenu(menu);
     int choice = ReadMenuChoice();
-    switch (choice) {
+    switch (choice)
+    {
         case 1: Park(parkingGarage); break;
         case 2: Move(parkingGarage); break;
         case 3: Remove(parkingGarage); break;
-        case 4: 
+        case 4:
             {
                 Console.Write("Enter serial number: ");
                 string query = Console.ReadLine();
