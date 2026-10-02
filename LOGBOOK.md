@@ -56,3 +56,5 @@
 * Started planning on which features to add and how to do it.
 * Decided to go with working on visualization and adding Timestamp and duration parked as they do not require a data format redesign.
 * Started with visualization. Apllied colors to garage print. Green for empty, red for full, and yellow for half full. 
+* Added some colors to make the console visually more appealing. 
+* 

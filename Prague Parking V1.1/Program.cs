@@ -8,6 +8,7 @@ parkingGarage[10] = "CAR#23Gf";
 
 static void PrintMenu(string[] menu)
 {
+    Console.ForegroundColor = ConsoleColor.Cyan;
     Console.WriteLine("==============================");
     Console.WriteLine("       PRAGUE PARKING");
     Console.WriteLine("==============================");
@@ -15,6 +16,8 @@ static void PrintMenu(string[] menu)
     {
         Console.WriteLine($"{i + 1}. {menu[i]}");
     }
+    Console.WriteLine("-------------------------------\n");
+    Console.ResetColor();
 }
 
 static int ReadMenuChoice()
@@ -28,8 +31,9 @@ static int ReadMenuChoice()
         {
             return choice;
         }
-
+        Console.ForegroundColor = ConsoleColor.DarkYellow;
         Console.Write("Please enter a number between 1-6: ");
+        Console.ResetColor();
     }
 }
 
@@ -51,14 +55,18 @@ static void Park(string[] parkingGarage)
                 if (parkingGarage[i] == null)
                 {
                     parkingGarage[i] = serialNumber;
+                    Console.ForegroundColor = ConsoleColor.DarkGreen;
                     Console.WriteLine($"Parked {serialNumber} in spot {i + 1}");
+                    Console.ResetColor();
                     parked = true;
                     break;
                 }
             }
             if (!parked)
             {
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
                 Console.WriteLine("No free parking slots available.");
+                Console.ResetColor();
             }
             break;
         }
@@ -75,27 +83,35 @@ static void Park(string[] parkingGarage)
                     }
 
                     parkingGarage[i] += "|" + serialNumber;
+                    Console.ForegroundColor = ConsoleColor.DarkGreen;
                     Console.WriteLine($"Parked {serialNumber} in slot {i + 1}");
+                    Console.ResetColor();
                     parked = true;
                     break;
                 }
                 else if (parkingGarage[i] == null)
                 {
                     parkingGarage[i] = serialNumber;
+                    Console.ForegroundColor = ConsoleColor.DarkGreen;
                     Console.WriteLine($"Parked {serialNumber} in slot {i + 1}");
+                    Console.ResetColor();
                     parked = true;
                     break;
                 }
             }
             if (!parked)
             {
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("No free parking slots available.");
+                Console.ResetColor();
             }
             break;
         }
         else
         {
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
             Console.WriteLine("Wrong input try again!");
+            Console.ResetColor();
         }
     }
 }
@@ -116,11 +132,15 @@ static void Move(string[] parkingGarage)
     if (!int.TryParse(Console.ReadLine(), out int destinationSlot) ||
         destinationSlot < 1 || destinationSlot > 100)
     {
+        Console.ForegroundColor = ConsoleColor.DarkYellow;
         Console.WriteLine("Invalid slot number.");
+        Console.ResetColor();
         return;
     }
 
+    Console.ForegroundColor = ConsoleColor.DarkYellow;
     Console.Write("Type 'm' to move the vehicle: ");
+    Console.ResetColor();
     if (Console.ReadLine() != "m")
     {
         return;
@@ -128,7 +148,9 @@ static void Move(string[] parkingGarage)
 
     if (!string.IsNullOrEmpty(parkingGarage[destinationSlot - 1]))
     {
+        Console.ForegroundColor = ConsoleColor.DarkRed;
         Console.WriteLine("That spot is occupied.");
+        Console.ResetColor();
         return;
     }
 
@@ -147,7 +169,9 @@ static void Move(string[] parkingGarage)
         parkingGarage[result.slotIndex] = null;
     }
 
+    Console.ForegroundColor = ConsoleColor.DarkGreen;
     Console.WriteLine($"Moved to slot {destinationSlot}");
+    Console.ResetColor();
 }
 
 static void Remove(string[] parkingGarage)
@@ -162,7 +186,9 @@ static void Remove(string[] parkingGarage)
         return;
     }
 
+    Console.ForegroundColor = ConsoleColor.DarkYellow;
     Console.Write("Type 'r' to remove the vehicle: ");
+    Console.ResetColor();
     if (Console.ReadLine() != "r")
     {
         return;
@@ -179,7 +205,9 @@ static void Remove(string[] parkingGarage)
         parkingGarage[result.slotIndex] = vehicles[1 - result.vehicleIndex];
     }
 
+    Console.ForegroundColor = ConsoleColor.DarkGreen;
     Console.WriteLine($"Vehicle with REGNR '{query}' has been removed.");
+    Console.ResetColor();
 }
 
 static (int slotIndex, int vehicleIndex) Search(string[] parkingGarage, string query)
@@ -199,13 +227,17 @@ static (int slotIndex, int vehicleIndex) Search(string[] parkingGarage, string q
 
             if (vehicleData[1].Equals(query, StringComparison.OrdinalIgnoreCase))
             {
+                Console.ForegroundColor = ConsoleColor.DarkGreen;
                 Console.WriteLine($"The vehicle is in parking slot {i + 1}");
+                Console.ResetColor();
                 return (i, j);
             }
         }
     }
 
+    Console.ForegroundColor = ConsoleColor.DarkRed;
     Console.WriteLine("Serial number doesn't exist!");
+    Console.ResetColor();
     return (-1, -1);
 }
 
@@ -274,7 +306,9 @@ while (true)
                     }
                     else
                     {
+                        Console.ForegroundColor = ConsoleColor.DarkRed;
                         Console.WriteLine("Invalid spot number.");
+                        Console.ResetColor();
                     }
                 }
 
