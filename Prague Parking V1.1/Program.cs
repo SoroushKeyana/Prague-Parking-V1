@@ -8,15 +8,18 @@ parkingGarage[10] = "CAR#23Gf";
 
 static void PrintMenu(string[] menu)
 {
+    Console.ForegroundColor = ConsoleColor.Black;
+    Console.BackgroundColor = ConsoleColor.Cyan;
+    Console.WriteLine("==============================");
+    Console.WriteLine("       PRAGUE PARKING         ");
+    Console.WriteLine("==============================\n");
+    Console.ResetColor();
     Console.ForegroundColor = ConsoleColor.Cyan;
-    Console.WriteLine("==============================");
-    Console.WriteLine("       PRAGUE PARKING");
-    Console.WriteLine("==============================");
     for (int i = 0; i < menu.Length; i++)
     {
-        Console.WriteLine($"{i + 1}. {menu[i]}");
+        Console.WriteLine($"{i + 1}. {menu[i],-26}|");
     }
-    Console.WriteLine("-------------------------------\n");
+    Console.WriteLine("------------------------------\n");
     Console.ResetColor();
 }
 
