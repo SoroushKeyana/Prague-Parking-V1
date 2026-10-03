@@ -68,3 +68,12 @@
 * Noticed that the number of choices is hard coded. Meaning that when I add a new item to the menu I have to change several things.
 * Added a new switch case for `Overview`.
 * Created `PrintFilteredView` for user to be able to have a filtered view to see cars, motorcycles and empty slots seperatley. 
+* Decided on data format for timestamps: changed each vehicle entry from `TYPE#REGNR` to `TYPE#REGNR#TIMESTAMP`, using format `yyyy-MM-ddTHH:mm:ss` so it parses consistently regardless of machine locale.
+* Updated `Park` to automatically capture `DateTime.Now` and store it as part of the vehicle string. User never types a timestamp in manually, as required.
+* Checked every method that does `.Split('#')` to see if adding a 3rd field would break anything. `Search` and `PrintFilteredView` only read index 1 (reg number), so both kept working without changes.
+* Updated `Remove` to parse out the removed vehicle's timestamp, calculate parked duration using `DateTime.Now - parkedAt`, and print it in days/hours/minutes.
+* Used `DateTime.TryParseExact` with `CultureInfo.InvariantCulture` instead of a plain parse, so the timestamp won't be read incorrectly if the app runs on a computer with different regional date settings.
+* Checked `Move` and found it needed no changes at all since it copies the whole vehicle string as is, the timestamp carries over automatically when a vehicle is relocated. Decided this is correct: moving a vehicle shouldn't reset how long it's been parked.
+* Noticed that once the stored string included a timestamp, `PrintSlot` and `PrintSlots` became unreadable (showing the raw `CAR#ABC123#2026-10-03T14:30:00` string). Created a new method, `FormatSlotForDisplay`, to convert the stored string into a clean readable line, and updated both print methods to use it.
+* Extended `PrintFilteredView` to show "(parked Xd Yh Zm)" next to each vehicle, reusing the timestamp parsing already being done there.
+* Noticed `Park` was checking for an existing motorcycle in a slot using `.Contains("MC#")`. Changed it to `.StartsWith("MC#")`, which is the more correct check since a slot's type marker is always at the start of the string.

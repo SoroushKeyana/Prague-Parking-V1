@@ -1,10 +1,15 @@
-﻿string[] parkingGarage = new string[100];
+﻿
+using System.Globalization;
+
+string TimestampFormat = "yyyy-MM-ddTHH:mm:ss";
+
+string[] parkingGarage = new string[100];
 string[] menu = { "Park", "Move", "Remove", "Search", "Print Slots","Garage Overview", "Filtered View", "Exit" };
 
-parkingGarage[0] = "MC#321|MC#1234";
-parkingGarage[1] = "MC#66G3";
-parkingGarage[3] = "MC#634G3";
-parkingGarage[10] = "CAR#23Gf";
+parkingGarage[0] = $"MC#321#{DateTime.Now.AddHours(-3):yyyy-MM-ddTHH:mm:ss}|MC#1234#{DateTime.Now.AddHours(-1):yyyy-MM-ddTHH:mm:ss}";
+parkingGarage[1] = $"MC#66G3#{DateTime.Now.AddDays(-1).AddHours(-5):yyyy-MM-ddTHH:mm:ss}";
+parkingGarage[3] = $"MC#634G3#{DateTime.Now.AddMinutes(-20):yyyy-MM-ddTHH:mm:ss}";
+parkingGarage[10] = $"CAR#23Gf#{DateTime.Now.AddDays(-2).AddHours(-7):yyyy-MM-ddTHH:mm:ss}";
 
 static void PrintMenu(string[] menu)
 {
@@ -42,9 +47,24 @@ static int ReadMenuChoice()
 
 static void Park(string[] parkingGarage)
 {
-    Console.Write("Insert the vehicles serial number: ");
-    string serialNumber = Console.ReadLine().ToUpper();
+    string regNumber;
+    while (true)
+    {
+        Console.Write("Insert the vehicles registration number: ");
+        regNumber = Console.ReadLine().ToUpper();
+        
+
+        if (regNumber.Length > 0 && regNumber.Length <= 10)
+        {
+            break;
+        }
+        Console.ForegroundColor = ConsoleColor.DarkRed;
+        Console.WriteLine("Invalid registration number. Registration number should be maximum 10 charachters.");
+        Console.ResetColor();
+    }
+
     bool parked = false;
+    string timestamp = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss", CultureInfo.InvariantCulture);
     while (true)
     {
         Console.WriteLine("1. Car \n2. Motorcycle");
@@ -52,14 +72,14 @@ static void Park(string[] parkingGarage)
         int.TryParse(Console.ReadLine(), out int vehicleType);
         if (vehicleType == 1)
         {
-            serialNumber = "CAR#" + serialNumber;
+            string entry = $"CAR#{regNumber}#{timestamp}";
             for (int i = 0; i < parkingGarage.Length; i++)
             {
                 if (parkingGarage[i] == null)
                 {
-                    parkingGarage[i] = serialNumber;
+                    parkingGarage[i] = entry;
                     Console.ForegroundColor = ConsoleColor.DarkGreen;
-                    Console.WriteLine($"Parked {serialNumber} in spot {i + 1}");
+                    Console.WriteLine($"Parked {regNumber} in spot {i + 1}");
                     Console.ResetColor();
                     parked = true;
                     break;
@@ -75,28 +95,28 @@ static void Park(string[] parkingGarage)
         }
         else if (vehicleType == 2)
         {
-            serialNumber = "MC#" + serialNumber;
+            regNumber = "MC#" + regNumber;
             for (int i = 0; i < parkingGarage.Length; i++)
             {
-                if (!string.IsNullOrEmpty(parkingGarage[i]) && parkingGarage[i].Contains("MC#"))
+                if (!string.IsNullOrEmpty(parkingGarage[i]) && parkingGarage[i].StartsWith("MC#"))
                 {
                     if (parkingGarage[i].Contains("|"))
                     {
                         continue;
                     }
 
-                    parkingGarage[i] += "|" + serialNumber;
+                    parkingGarage[i] += "|" + regNumber;
                     Console.ForegroundColor = ConsoleColor.DarkGreen;
-                    Console.WriteLine($"Parked {serialNumber} in slot {i + 1}");
+                    Console.WriteLine($"Parked {regNumber} in slot {i + 1}");
                     Console.ResetColor();
                     parked = true;
                     break;
                 }
                 else if (parkingGarage[i] == null)
                 {
-                    parkingGarage[i] = serialNumber;
+                    parkingGarage[i] = regNumber;
                     Console.ForegroundColor = ConsoleColor.DarkGreen;
-                    Console.WriteLine($"Parked {serialNumber} in slot {i + 1}");
+                    Console.WriteLine($"Parked {regNumber} in slot {i + 1}");
                     Console.ResetColor();
                     parked = true;
                     break;
@@ -121,10 +141,10 @@ static void Park(string[] parkingGarage)
 
 static void Move(string[] parkingGarage)
 {
-    Console.Write("Enter serial number of the vehicle you would like to move: ");
-    string serialNumber = Console.ReadLine();
+    Console.Write("Enter registration number of the vehicle you would like to move: ");
+    string regNumber = Console.ReadLine();
 
-    var result = Search(parkingGarage, serialNumber);
+    var result = Search(parkingGarage, regNumber);
 
     if (result.slotIndex == -1)
     {
@@ -179,7 +199,7 @@ static void Move(string[] parkingGarage)
 
 static void Remove(string[] parkingGarage)
 {
-    Console.Write("Enter serial number: ");
+    Console.Write("Enter registration number: ");
     string query = Console.ReadLine();
 
     var result = Search(parkingGarage, query);
@@ -198,6 +218,8 @@ static void Remove(string[] parkingGarage)
     }
 
     string[] vehicles = parkingGarage[result.slotIndex].Split('|');
+    string removedVehicle = vehicles[result.vehicleIndex];
+    string[] removedParts = removedVehicle.Split('#');
 
     if (vehicles.Length == 1)
     {
@@ -209,7 +231,13 @@ static void Remove(string[] parkingGarage)
     }
 
     Console.ForegroundColor = ConsoleColor.DarkGreen;
-    Console.WriteLine($"Vehicle with REGNR '{query}' has been removed.");
+    Console.WriteLine($"\nVehicle with REGNR '{query}' has been removed.");
+    if (removedParts.Length >= 3 && DateTime.TryParseExact(removedParts[2], "yyyy-MM-ddTHH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime parkedAt))
+    {
+        TimeSpan duration = DateTime.Now - parkedAt;
+        Console.ForegroundColor = ConsoleColor.DarkYellow;
+        Console.WriteLine($"Parked for: {duration.Days} days, {duration.Hours} hours, {duration.Minutes} minutes");
+    }
     Console.ResetColor();
 }
 
@@ -239,23 +267,44 @@ static (int slotIndex, int vehicleIndex) Search(string[] parkingGarage, string q
     }
 
     Console.ForegroundColor = ConsoleColor.DarkRed;
-    Console.WriteLine("Serial number doesn't exist!");
+    Console.WriteLine("Registration number doesn't exist!");
     Console.ResetColor();
     return (-1, -1);
 }
 
+static string FormatSlotForDisplay(string slot)
+{
+    if (string.IsNullOrEmpty(slot))
+    {
+        return "Empty";
+    }
+
+    string[] vehicles = slot.Split('|');
+    string[] display = new string[vehicles.Length];
+
+    for (int i = 0; i < vehicles.Length; i++)
+    {
+        string[] parts = vehicles[i].Split('#');
+        display[i] = $"{parts[0]}#{parts[1]}";
+    }
+
+    return string.Join(" | ", display);
+}
+
 static void PrintSlot(string[] parkingGarage, int spotNumber)
 {
-    Console.WriteLine($"{spotNumber,3}. {parkingGarage[spotNumber - 1] ?? "Empty",-25}");
+    string slot = parkingGarage[spotNumber - 1];
+    Console.WriteLine($"{spotNumber,3}. {FormatSlotForDisplay(slot)}");
 }
 static void PrintSlots(string[] parkingGarage)
 {
 
     for (int i = 0; i < parkingGarage.Length; i++)
     {
-        Console.Write($"{i + 1,3}. {parkingGarage[i] ?? "Empty",-25}");
+        Console.Write($"{i + 1,3}. {FormatSlotForDisplay(parkingGarage[i]),-25}");
+        if ((i + 1) % 3 == 0)
 
-        if ((i + 1) % 4 == 0)
+            if ((i + 1) % 4 == 0)
         {
             Console.WriteLine();
         }
@@ -336,7 +385,15 @@ static void PrintFilteredView(string[] parkingGarage, string filter)
             if ((filter == "Cars" && type == "CAR") ||
                 (filter == "Motorcycles" && type == "MC"))
             {
-                Console.WriteLine($"{i + 1,3}. {type} {regnr}");
+                string parkedSince = "";
+                if (parts.Length >= 3 &&
+                    DateTime.TryParseExact(parts[2], "yyyy-MM-ddTHH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime parkedAt))
+                {
+                    TimeSpan duration = DateTime.Now - parkedAt;
+                    parkedSince = $" (parked {duration.Days}d {duration.Hours}h {duration.Minutes}m)";
+                }
+
+                Console.WriteLine($"{i + 1,3}. {type}#{regnr}{parkedSince}");
                 anyFound = true;
             }
         }
@@ -367,7 +424,7 @@ while (true)
         case 3: Remove(parkingGarage); break;
         case 4:
             {
-                Console.Write("Enter serial number: ");
+                Console.Write("Enter registration number: ");
                 string query = Console.ReadLine();
                 Search(parkingGarage, query);
                 break;
