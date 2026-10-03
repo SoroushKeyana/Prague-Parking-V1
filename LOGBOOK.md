@@ -57,4 +57,14 @@
 * Decided to go with working on visualization and adding Timestamp and duration parked as they do not require a data format redesign.
 * Started with visualization. Apllied colors to garage print. Green for empty, red for full, and yellow for half full. 
 * Added some colors to make the console visually more appealing. 
+* Started working on printing an `Overview` of the garage. 
+
+## 2026-10-03
+
+* Created `PrintOverview` method.
+* Added variables to have the count of empty, half full and full slots. 
+* The method will print slots 1-100. If slot is red means full, if yellow means half full and if green means empty. 
+* Added `Overview` to the `Menu`. 
+* Noticed that the number of choices is hard coded. Meaning that when I add a new item to the menu I have to change several things.
+* Added a new Case for `Overview`.
 * 

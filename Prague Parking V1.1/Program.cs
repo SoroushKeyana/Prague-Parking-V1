@@ -1,5 +1,5 @@
 ﻿string[] parkingGarage = new string[100];
-string[] menu = { "Park", "Move", "Remove", "Search", "Print Slots", "Exit" };
+string[] menu = { "Park", "Move", "Remove", "Search", "Print Slots","Garage Overview", "Exit" };
 
 parkingGarage[0] = "MC#321|MC#1234";
 parkingGarage[1] = "MC#66G3";
@@ -25,17 +25,17 @@ static void PrintMenu(string[] menu)
 
 static int ReadMenuChoice()
 {
-    Console.Write("Type a number between 1-6: ");
+    Console.Write("Type a number between 1-7: ");
 
     while (true)
     {
         if (int.TryParse(Console.ReadLine(), out int choice) &&
-            choice >= 1 && choice <= 6)
+            choice >= 1 && choice <= 7)
         {
             return choice;
         }
         Console.ForegroundColor = ConsoleColor.DarkYellow;
-        Console.Write("Please enter a number between 1-6: ");
+        Console.Write("Please enter a number between 1-7: ");
         Console.ResetColor();
     }
 }
@@ -262,6 +262,51 @@ static void PrintSlots(string[] parkingGarage)
     }
 }
 
+static void PrintOverview(string[] parkingGarage)
+{
+    int empty = 0, halfFull = 0, full = 0;
+
+    Console.WriteLine("Green = empty, Yellow = 1 MC (room for another), Red = full\n");
+
+    for (int i = 0; i < parkingGarage.Length; i++)
+    {
+        string slot = parkingGarage[i];
+
+        if (string.IsNullOrEmpty(slot))
+        {
+            Console.ForegroundColor = ConsoleColor.DarkGreen;
+            empty++;
+        }
+        else if (slot.StartsWith("MC#") && !slot.Contains('|'))
+        {
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            halfFull++;
+        }
+        else
+        {
+            Console.ForegroundColor = ConsoleColor.DarkRed;
+            full++;
+        }
+
+        Console.Write($"{i + 1,4}");
+        Console.ResetColor();
+
+        if ((i + 1) % 10 == 0)
+        {
+            Console.WriteLine();
+        }
+    }
+
+    Console.WriteLine();
+    Console.ForegroundColor = ConsoleColor.DarkGreen;
+    Console.Write($"\nEmpty: {empty} ");
+    Console.ForegroundColor = ConsoleColor.DarkYellow;
+    Console.Write($" Half full: {halfFull}  ");
+    Console.ForegroundColor = ConsoleColor.DarkRed;
+    Console.Write($"Full: {full}");
+    Console.ResetColor();
+}
+
 static void Exit()
 {
     Console.WriteLine("Exiting the program...");
@@ -317,7 +362,11 @@ while (true)
 
                 break;
             }
-        case 6: Exit(); break;
+        case 6:
+            PrintOverview(parkingGarage);
+
+            break;
+        case 7: Exit(); break;
     }
     Console.WriteLine("\nPress any key to return to the menu...");
     Console.ReadKey();
