@@ -66,5 +66,5 @@
 * The method will print slots 1-100. If slot is red means full, if yellow means half full and if green means empty. 
 * Added `Overview` to the `Menu`. 
 * Noticed that the number of choices is hard coded. Meaning that when I add a new item to the menu I have to change several things.
-* Added a new Case for `Overview`.
-* 
+* Added a new switch case for `Overview`.
+* Created `PrintFilteredView` for user to be able to have a filtered view to see cars, motorcycles and empty slots seperatley. 

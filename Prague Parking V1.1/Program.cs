@@ -1,5 +1,5 @@
 ﻿string[] parkingGarage = new string[100];
-string[] menu = { "Park", "Move", "Remove", "Search", "Print Slots","Garage Overview", "Exit" };
+string[] menu = { "Park", "Move", "Remove", "Search", "Print Slots","Garage Overview", "Filtered View", "Exit" };
 
 parkingGarage[0] = "MC#321|MC#1234";
 parkingGarage[1] = "MC#66G3";
@@ -25,17 +25,17 @@ static void PrintMenu(string[] menu)
 
 static int ReadMenuChoice()
 {
-    Console.Write("Type a number between 1-7: ");
+    Console.Write("Type a number between 1-8: ");
 
     while (true)
     {
         if (int.TryParse(Console.ReadLine(), out int choice) &&
-            choice >= 1 && choice <= 7)
+            choice >= 1 && choice <= 8)
         {
             return choice;
         }
         Console.ForegroundColor = ConsoleColor.DarkYellow;
-        Console.Write("Please enter a number between 1-7: ");
+        Console.Write("Please enter a number between 1-8: ");
         Console.ResetColor();
     }
 }
@@ -307,6 +307,47 @@ static void PrintOverview(string[] parkingGarage)
     Console.ResetColor();
 }
 
+static void PrintFilteredView(string[] parkingGarage, string filter)
+{
+    Console.WriteLine($"--- {filter} ---");
+    bool anyFound = false;
+
+    for (int i = 0; i < parkingGarage.Length; i++)
+    {
+        string slot = parkingGarage[i];
+
+        if (string.IsNullOrEmpty(slot))
+        {
+            if (filter == "Empty spots")
+            {
+                Console.WriteLine($"{i + 1,3}. Empty");
+                anyFound = true;
+            }
+            continue;
+        }
+
+        string[] vehicles = slot.Split('|');
+        foreach (string vehicle in vehicles)
+        {
+            string[] parts = vehicle.Split('#');
+            string type = parts[0];
+            string regnr = parts[1];
+
+            if ((filter == "Cars" && type == "CAR") ||
+                (filter == "Motorcycles" && type == "MC"))
+            {
+                Console.WriteLine($"{i + 1,3}. {type} {regnr}");
+                anyFound = true;
+            }
+        }
+    }
+
+    if (!anyFound)
+    {
+        Console.WriteLine("Nothing to show.");
+    }
+}
+
 static void Exit()
 {
     Console.WriteLine("Exiting the program...");
@@ -362,11 +403,30 @@ while (true)
 
                 break;
             }
-        case 6:
-            PrintOverview(parkingGarage);
+        case 6: PrintOverview(parkingGarage); break;
+        case 7:
+            {
+                Console.WriteLine("1. Cars");
+                Console.WriteLine("2. Motorcycles");
+                Console.WriteLine("3. Empty spots");
+                Console.Write("Choose: ");
 
-            break;
-        case 7: Exit(); break;
+                int reportChoice = int.Parse(Console.ReadLine());
+                string filter = reportChoice switch
+                {
+                    1 => "Cars",
+                    2 => "Motorcycles",
+                    3 => "Empty spots",
+                    _ => ""
+                };
+
+                if (filter != "")
+                {
+                    PrintFilteredView(parkingGarage, filter);
+                }
+                break;
+            }
+        case 8: Exit(); break;
     }
     Console.WriteLine("\nPress any key to return to the menu...");
     Console.ReadKey();
