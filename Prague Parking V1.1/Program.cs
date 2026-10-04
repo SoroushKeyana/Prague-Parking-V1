@@ -95,7 +95,7 @@ static void Park(string[] parkingGarage)
         }
         else if (vehicleType == 2)
         {
-            regNumber = "MC#" + regNumber;
+            string entry = $"MC#{regNumber}#{timestamp}";
             for (int i = 0; i < parkingGarage.Length; i++)
             {
                 if (!string.IsNullOrEmpty(parkingGarage[i]) && parkingGarage[i].StartsWith("MC#"))
@@ -105,7 +105,7 @@ static void Park(string[] parkingGarage)
                         continue;
                     }
 
-                    parkingGarage[i] += "|" + regNumber;
+                    parkingGarage[i] += "|" + entry;
                     Console.ForegroundColor = ConsoleColor.DarkGreen;
                     Console.WriteLine($"Parked {regNumber} in slot {i + 1}");
                     Console.ResetColor();
@@ -114,7 +114,7 @@ static void Park(string[] parkingGarage)
                 }
                 else if (parkingGarage[i] == null)
                 {
-                    parkingGarage[i] = regNumber;
+                    parkingGarage[i] = entry;
                     Console.ForegroundColor = ConsoleColor.DarkGreen;
                     Console.WriteLine($"Parked {regNumber} in slot {i + 1}");
                     Console.ResetColor();
@@ -169,27 +169,56 @@ static void Move(string[] parkingGarage)
         return;
     }
 
-    if (!string.IsNullOrEmpty(parkingGarage[destinationSlot - 1]))
-    {
-        Console.ForegroundColor = ConsoleColor.DarkRed;
-        Console.WriteLine("That spot is occupied.");
-        Console.ResetColor();
-        return;
-    }
+    int srcIndex = result.slotIndex;
+    int destIndex = destinationSlot - 1;
 
-    if (parkingGarage[result.slotIndex].Contains('|'))
-    {
-        string[] vehicles = parkingGarage[result.slotIndex].Split('|');
-        string movingVehicle = vehicles[result.vehicleIndex];
-        string remainingVehicle = vehicles[1 - result.vehicleIndex];
+    string srcSlot = parkingGarage[srcIndex];
+    string destSlot = parkingGarage[destIndex];
 
-        parkingGarage[destinationSlot - 1] = movingVehicle;
-        parkingGarage[result.slotIndex] = remainingVehicle;
+    string movingVehicle;
+    string remainingVehicle = null;
+    if (srcSlot.Contains('|'))
+    {
+        string[] vehicles = srcSlot.Split('|');
+        movingVehicle = vehicles[result.vehicleIndex];
+        remainingVehicle = vehicles[1 - result.vehicleIndex];
     }
     else
     {
-        parkingGarage[destinationSlot - 1] = parkingGarage[result.slotIndex];
-        parkingGarage[result.slotIndex] = null;
+        movingVehicle = srcSlot;
+    }
+
+    bool movingIsMC = movingVehicle.StartsWith("MC#");
+    bool destIsEmpty = string.IsNullOrEmpty(destSlot);
+    bool destIsSingleMC = !string.IsNullOrEmpty(destSlot) && destSlot.StartsWith("MC#") && !destSlot.Contains("|");
+
+    if (!destIsEmpty)
+    {
+        if (!(movingIsMC && destIsSingleMC))
+        {
+            Console.ForegroundColor = ConsoleColor.DarkRed;
+            Console.WriteLine("That spot is occupied.");
+            Console.ResetColor();
+            return;
+        }
+    }
+
+    if (destIsEmpty)
+    {
+        parkingGarage[destIndex] = movingVehicle;
+    }
+    else
+    {
+        parkingGarage[destIndex] = destSlot + "|" + movingVehicle;
+    }
+
+    if (srcSlot.Contains('|'))
+    {
+        parkingGarage[srcIndex] = remainingVehicle;
+    }
+    else
+    {
+        parkingGarage[srcIndex] = null;
     }
 
     Console.ForegroundColor = ConsoleColor.DarkGreen;
@@ -302,12 +331,8 @@ static void PrintSlots(string[] parkingGarage)
     for (int i = 0; i < parkingGarage.Length; i++)
     {
         Console.Write($"{i + 1,3}. {FormatSlotForDisplay(parkingGarage[i]),-25}");
-        if ((i + 1) % 3 == 0)
-
-            if ((i + 1) % 4 == 0)
-        {
+        if ((i + 1) % 4 == 0)
             Console.WriteLine();
-        }
     }
 }
 

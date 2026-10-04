@@ -1,4 +1,4 @@
-# Reflection — Prague Parking V1.1 / V1.1
+# Reflection — Prague Parking V1.0 / V1.1
 
 ## 1. Summary
 
@@ -32,7 +32,7 @@ The core data model is a one-dimensional `string[100]` array, as required, with 
 
 Rather than one large `Main()` method, the program is broken into many small, single-purpose static methods (`Park`, `Move`, `Remove`, `Search`, `PrintSlot`, `PrintSlots`, `PrintOverview`, `PrintFilteredView`, `FormatSlotForDisplay`), following the spec's own advice to let each method do one well-defined job and to avoid overly large methods. `Search` returns a C# tuple `(int slotIndex, int vehicleIndex)` instead of being `void`, which lets it hand back two pieces of information to its caller at once similar in spirit to how `TryParse()` uses an `out` parameter, which the spec specifically pointed to as a useful pattern.
 
-The menu is driven by a `while (true)` loop with a `switch` statement dispatching to the relevant method based on validated user input (`int.TryParse` loops that reject anything outside the valid range rather than crashing). Console colors (`Console.ForegroundColor`) are used throughout to give immediate visual feedback (green for success, yellow for warnings, red for errors or full/occupied spots), which became the basis for the `PrintOverview` visualization feature in 1.1.
+The menu is driven by a `while (true)` loop with a `switch` statement dispatching to the relevant method. Console colors (`Console.ForegroundColor`) are used throughout to give immediate visual feedback (green for success, yellow for warnings, red for errors or full/occupied spots), which became the basis for the `PrintOverview` visualization feature in 1.1.
 
 ## 5. How I would solve the assignment next time, given what I know now
 

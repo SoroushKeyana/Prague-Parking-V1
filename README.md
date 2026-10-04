@@ -1,4 +1,4 @@
-# Prague Parking V1 / V1.1
+# Prague Parking V1.0 / V1.1
 
 The customer wants a support system for a parking lot near the castle in Prague.
 
@@ -119,8 +119,7 @@ If two motorcycles are sharing a spot, only the selected motorcycle is removed a
 
 The user can move a vehicle by entering its registration number and the destination parking spot.
 
-The system first uses the `Search` method to find the vehicle. The destination spot number must be between 1 and 100, and is checked to make sure it is empty, if either check fails, the user is told why and nothing is moved.
-
+The system first uses the `Search` method to find the vehicle. 
 If the vehicle is the only vehicle in its current spot, its value (including its timestamp, in V1.1) is moved to the new spot and the old spot is set to `null`.
 
 If two motorcycles are sharing a spot, only the selected motorcycle (identified via `vehicleIndex`) is moved and the other motorcycle stays in the original spot.
